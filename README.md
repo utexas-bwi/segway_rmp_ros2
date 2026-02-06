@@ -1,5 +1,17 @@
-# Segway-ROS2-driver-libsegwayrmp-based
-ROS2 Segway Drivers for BWIBots V2. This package is derived from <code>segway_rmp</code> (https://github.com/utexas-bwi/segway_rmp.git)
+# ROS2 drivers to interface with Segway RMP 200/400 mobile robots
+This repository provides a native ROS2 driver based on libsegwayrmp to control the base and receive sensor feedback from the robot. It enables teleoperation, integration with navigation stacks (e.g., Nav2), and use in research & autonomy applications. This package is derived from <code>segway_rmp</code> (https://github.com/utexas-bwi/segway_rmp.git)
+
+🔍 Features
+
+- 🦾 ROS2 C++ driver node for Segway RMP platforms
+
+- 📡 Publishes odometry, IMU, and status topics
+
+- 🕹️ Teleoperation support via standard ROS2 interfaces
+
+- 📦 Compatible with ROS2 Humble+
+
+- 🚀 Easy to launch and integrate into robot systems
 
 ## Dependencies
 ### serial
