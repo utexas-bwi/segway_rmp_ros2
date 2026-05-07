@@ -3,34 +3,28 @@
 [![Ubuntu 22.04](https://img.shields.io/badge/Ubuntu-22.04%20LTS-orange)](https://releases.ubuntu.com/22.04/)
 [![ROS 2 Humble](https://img.shields.io/badge/ROS%202-Humble%20Hawksbill-blue)](https://docs.ros.org/en/humble/index.html)
 [![C++](https://img.shields.io/badge/Language-C%2B%2B-blue.svg)](https://isocpp.org/)
-[![Based On](https://img.shields.io/badge/Based%20On-utexas--bwi%2Fsegway__rmp__ros2-lightgrey)](https://github.com/utexas-bwi/segway_rmp_ros2)
 [![Calibrated For](https://img.shields.io/badge/Calibrated%20For-RMP50%20%2F%20RMP100-9cf)](https://www.segway.com/)
 
-This repository provides an enhanced ROS 2 driver for Segway RMP mobile bases, specifically calibrated for the **RMP 50/100** models. It builds upon the original `segway_rmp_ros2` driver from UT Austin's BWI lab, incorporating crucial calibration fixes and improved debugging capabilities.
+This repository provides a native ROS2 driver based on libsegwayrmp to control the base and receive sensor feedback from the robot. It enables teleoperation, integration with navigation stacks (e.g., Nav2), and use in research & autonomy applications.
 
-The primary goal of this fork is to provide a driver that works in conjunction with our [**calibrated `libsegwayrmp` library fork**](https://github.com/JPLDevMaster/libsegwayrmp_ros2). Using both ensures accurate velocity control and odometry.
+🔍 Features
 
-## Overview
+- 🦾 ROS2 C++ driver node for Segway RMP platforms
 
-The standard `segway_rmp_ros2` driver, when used with the original `libsegwayrmp`, often suffers from inaccurate velocity tracking and odometry due to incorrect low-level calibration constants. This fork addresses these issues by:
+- 📡 Publishes odometry, IMU, and status topics
 
-1.  **Depending on a Calibrated Low-Level Library:** It assumes the use of our modified `libsegwayrmp` where the core velocity and distance conversion factors have been corrected.
-2.  **Adding Enhanced Debug Logging:** Includes detailed logging to compare **Commanded**, **Sent** (after acceleration/scaling), and **Measured** (from odometry) velocities, along with percentage differences. This is invaluable for verifying performance and diagnosing issues. Please keep in mind that there are always going to be discrepencies in the indicated velocities ranging (from our tests) between -10% to 20%, however they remain fairly constant at ± 5% and it is the average over a certain distance that we care about.
-3.  **Improving Compatibility:** Subscribes to `geometry_msgs/msg/TwistStamped` instead of `geometry_msgs/msg/Twist` for better integration with modern ROS 2 systems like Nav2.
-4.  **Adding Parameterized Logging:** Introduces a `log_level` parameter to control the verbosity of the driver's output, allowing debug information to be enabled only when needed.
+- 🕹️ Teleoperation support via standard ROS2 interfaces
+
+- 📦 Compatible with ROS2 Humble+
+
+- 🚀 Easy to launch and integrate into robot systems
 
 ## Dependencies
 
 * **ROS 2 Humble Hawksbill:** Not a dependency, but it is the only version we tested on (Desktop Install recommended).
 * **Ubuntu 22.04 LTS**
-* **`serial_for_ros2`:** Required for serial communication.
-    ```bash
-    git clone https://github.com/utexas-bwi/serial_for_ros2.git
-    ```
-* **Calibrated `libsegwayrmp`:** **Crucially, you must use our calibrated fork.**
-    ```bash
-    git clone https://github.com/JPLDevMaster/libsegwayrmp_ros2.git
-    ```
+* **`serial_for_ros2`:** https://github.com/utexas-bwi/segway_rmp_ros2.
+* **`libsegwayrmp`:** https://github.com/utexas-bwi/libsegwayrmp_ros2.
 
 ## Installation
 
@@ -42,12 +36,12 @@ The standard `segway_rmp_ros2` driver, when used with the original `libsegwayrmp
     ```
 
 2.  **Clone Dependencies:**
-    Clone the `serial_for_ros2` library and **our calibrated `libsegwayrmp_ros2` fork** into your workspace's `src` directory. Make sure to remove any existing versions first.
+    Clone the `serial_for_ros2` driver and the `libsegwayrmp_ros2` library into your workspace's `src` directory. Make sure to remove any existing versions first.
     ```bash
     cd ~/ros2_ws/src
     rm -rf serial_for_ros2 libsegwayrmp libsegwayrmp_ros2 segway_rmp_ros2 # Clean old versions
     git clone https://github.com/utexas-bwi/serial_for_ros2.git
-    git clone https://github.com/JPLDevMaster/libsegwayrmp_ros2.git
+    git clone https://github.com/utexas-bwi/libsegwayrmp_ros2.git
     ```
 
 3.  **Clone this Repository:**
@@ -94,7 +88,7 @@ ros2 launch segway_rmp_ros2 segway_rmp_ros2.launch.py log_level:=debug
 ros2 launch segway_rmp_ros2 segway_rmp_ros2.launch.py serial_port:=/dev/ttyUSB1
 ```
 
-Important: Because the low-level libsegwayrmp library is now calibrated, ensure that the linear_odom_scale parameter in the launch file is set to 1.0, or just ignore it and let it use the default value.
+Important: Because the low-level libsegwayrmp library is calibrated, ensure that the linear_odom_scale parameter in the launch file is set to 1.0, or just ignore it and let it use the default value.
 
 ```bash
 <param name="linear_odom_scale" value="1.0" />
