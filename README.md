@@ -1,4 +1,4 @@
-# ROS2 drivers to interface with Segway RMP 200/400 mobile robots
+# ROS2 drivers to interface with Segway RMP 50/200/400 mobile robots
 This repository provides a native ROS2 driver based on libsegwayrmp to control the base and receive sensor feedback from the robot. It enables teleoperation, integration with navigation stacks (e.g., Nav2), and use in research & autonomy applications. 
 
 🔍 Features
